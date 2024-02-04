@@ -14,15 +14,15 @@ function RoomSelectionPage() {
   const user = state.user;
 
   const options = [
-    { name: "js", id: "js", category: "room" },
-    { name: "react", id: "react", category: "room" },
-    { name: "angular", id: "angular", category: "room" },
-    { name: "python", id: "python", category: "room" },
-    { name: "java", id: "java", category: "room" },
-    { name: "c", id: "c", category: "room" },
-    { name: "jee", id: "jee", category: "room" },
-    { name: "html", id: "html", category: "room" },
-    { name: "neet", id: "neet", category: "room" },
+    { name: "js", id: "js" },
+    { name: "react", id: "react" },
+    { name: "angular", id: "angular" },
+    { name: "python", id: "python" },
+    { name: "java", id: "java" },
+    { name: "c", id: "c" },
+    { name: "jee", id: "jee" },
+    { name: "html", id: "html" },
+    { name: "neet", id: "neet" },
   ];
 
   const onSelect = (selectedList) => {
