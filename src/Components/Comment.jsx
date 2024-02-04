@@ -165,7 +165,6 @@ function Comment({ roomId, queryId }) {
               </>
             )}
 
-            <p>{comment._id}</p>
             {
               <Modal
                 open={open}

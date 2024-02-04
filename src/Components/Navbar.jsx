@@ -38,11 +38,17 @@ function Navbar(props) {
       <Divider />
       <List>
         {navItems.map((item) => (
-          <ListItem key={item} disablePadding>
-            <ListItemButton sx={{ textAlign: "center" }}>
-              <ListItemText primary={item} />
-            </ListItemButton>
-          </ListItem>
+          <Button
+            key={item}
+            sx={{ color: "black" }}
+            onClick={() => {
+              navigate("/profile", {
+                state: user.id,
+              });
+            }}
+          >
+            {item}
+          </Button>
         ))}
       </List>
     </Box>

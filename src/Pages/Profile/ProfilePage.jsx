@@ -1,6 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
 import React, { useContext } from "react";
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { request } from "../../global/axiosGlobal";
 import { authContext } from "../../hooks/authContext";
 
@@ -9,7 +9,9 @@ function ProfilePage() {
 
   const userId = location.state;
 
-  const { user } = useContext(authContext);
+  const navigate = useNavigate();
+
+  const { user, dispatch } = useContext(authContext);
   const { data } = useQuery({
     queryKey: ["user", userId],
     queryFn: () => {
@@ -20,6 +22,12 @@ function ProfilePage() {
       });
     },
   });
+
+  const logoutHandler = () => {
+    dispatch({ type: "LOGOUT" });
+    localStorage.removeItem("user");
+    navigate("/auth");
+  };
 
   return (
     <div>
@@ -37,6 +45,11 @@ function ProfilePage() {
         {data?.data.user.rooms.map((room) => {
           return <p key={room.id}>{room.name}</p>;
         })}
+      </div>
+      <div>
+        <div>
+          <button onClick={logoutHandler}>Logout</button>
+        </div>
       </div>
     </div>
   );
