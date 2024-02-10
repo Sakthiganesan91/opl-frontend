@@ -1,5 +1,5 @@
 import { createContext, useReducer, useEffect } from "react";
-import { Navigate } from "react-router-dom";
+
 import { request } from "../global/axiosGlobal";
 
 export const authContext = createContext();

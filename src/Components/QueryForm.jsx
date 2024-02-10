@@ -2,9 +2,11 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import React, { useContext, useState } from "react";
 import { request } from "../global/axiosGlobal";
 import { authContext } from "../hooks/authContext";
-
+import TextField from "@mui/material/TextField";
 import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
+import ArrowUpwardIcon from "@mui/icons-material/ArrowUpward";
+import { Box, Button, Grid } from "@mui/material";
 
 function QueryForm({ room, setIsOpen }) {
   const queryClient = useQueryClient();
@@ -64,59 +66,80 @@ function QueryForm({ room, setIsOpen }) {
     setQueryDescription("");
   };
   return (
-    <div>
-      <form onSubmit={submitHandler}>
-        <div>
-          <label>Query Title</label>
-          <div>
-            <input
-              type="text"
-              value={queryTitle}
-              onChange={queryTitleHandler}
-            />
-          </div>
-        </div>
-        <div>
-          <label>Query Description</label>
-          <div>
-            <input
-              type="text"
-              value={queryDescription}
-              onChange={queryDescriptionHandler}
-            />
-          </div>
-        </div>
+    <Box component={"div"}>
+      <form onSubmit={submitHandler} autoComplete="false">
+        <TextField
+          variant="standard"
+          label="Query Title"
+          type="text"
+          multiline
+          fullWidth
+          autoComplete="off"
+          value={queryTitle}
+          onChange={queryTitleHandler}
+        />
 
-        <div>
+        <TextField
+          variant="standard"
+          label="Query Description"
+          type="text"
+          multiline
+          fullWidth={true}
+          value={queryDescription}
+          onChange={queryDescriptionHandler}
+        />
+
+        <Box
+          component={"div"}
+          sx={{
+            margin: { sm: "8px 0" },
+          }}
+        >
           <ReactQuill
             theme="snow"
+            style={{
+              width: "100%",
+            }}
             value={queryDetails}
             onChange={setQueryDetails}
-            style={{
-              display: "flex",
-              flexDirection: "column",
-              overflowX: "clip",
-              overflowWrap: "break-word",
-              wordWrap: "break-word",
-              wordBreak: "break-word",
-            }}
           />
-        </div>
+        </Box>
 
-        <div>
-          <button type="submit">Submit Query</button>
-          <button
+        <Box
+          sx={{
+            display: {
+              sm: "flex",
+            },
+            margin: {
+              xs: "8px 0",
+            },
+            marginBottom: {
+              sm: "16px",
+            },
+            justifyContent: { sm: "center" },
+            alignItems: { sm: "center" },
+          }}
+        >
+          <Button
+            variant="contained"
+            type="submit"
+            endIcon={<ArrowUpwardIcon />}
+          >
+            Submit Query
+          </Button>
+          <Button
+            variant="text"
             type="button"
             onClick={() => {
               setIsOpen(false);
             }}
           >
             Cancel
-          </button>
+          </Button>
           {error && <h5>{error}</h5>}
-        </div>
+        </Box>
       </form>
-    </div>
+    </Box>
   );
 }
 

@@ -8,7 +8,11 @@ import { authContext } from "../hooks/authContext";
 import Box from "@mui/material/Box";
 import Modal from "@mui/material/Modal";
 import EditComment from "./EditComment";
-
+import EditIcon from "@mui/icons-material/Edit";
+import { Button, IconButton, Typography } from "@mui/material";
+import DeleteIcon from "@mui/icons-material/Delete";
+import ThumbUpAltIcon from "@mui/icons-material/ThumbUpAlt";
+import ThumbUpOffAltIcon from "@mui/icons-material/ThumbUpOffAlt";
 function Comment({ roomId, queryId }) {
   const [selectedComment, setSelectedComment] = useState(null);
   const style = {
@@ -112,7 +116,6 @@ function Comment({ roomId, queryId }) {
   };
   return (
     <div>
-      <p>Type Comment</p>
       <form onSubmit={submitHandler}>
         <ReactQuill
           theme="snow"
@@ -129,7 +132,15 @@ function Comment({ roomId, queryId }) {
         />
 
         {comment !== "<p><br></p>" && (
-          <button type="submit">Add Comment</button>
+          <Button
+            variant="contained"
+            type="submit"
+            sx={{
+              margin: "8px 0",
+            }}
+          >
+            Add Comment
+          </Button>
         )}
       </form>
       {data?.data.comments.map((comment) => {
@@ -137,34 +148,12 @@ function Comment({ roomId, queryId }) {
           <div
             key={comment._id}
             style={{
-              border: "1px solid black",
+              border: "2px solid black",
+              borderRadius: "15px",
               margin: "8px 0",
               padding: "8px 8px",
             }}
           >
-            {user.id === comment.user._id && (
-              <>
-                <button
-                  type="button"
-                  onClick={() => {
-                    setSelectedComment(comment);
-                    handleOpen();
-                  }}
-                >
-                  Edit Comment
-                </button>
-
-                <button
-                  type="button"
-                  onClick={() => {
-                    deleteMutation.mutate(comment._id);
-                  }}
-                >
-                  Delete Comment
-                </button>
-              </>
-            )}
-
             {
               <Modal
                 open={open}
@@ -182,22 +171,68 @@ function Comment({ roomId, queryId }) {
                 </Box>
               </Modal>
             }
-            <p>{comment.user.username}</p>
-
-            <p dangerouslySetInnerHTML={{ __html: comment.comment }}></p>
-
-            <p>Upvote {comment.upVote.count}</p>
-            <button
-              onClick={() => {
-                likeMutation.mutate(comment._id);
+            <div
+              style={{
+                display: "flex",
+                alignItems: "center",
               }}
             >
-              {comment.upVote.userIds.find((userId) => {
-                return userId.toString() === user.id;
-              })
-                ? "UnLike"
-                : "Like"}
-            </button>
+              <Typography variant="h6">{comment.user.username}</Typography>
+              {user.id === comment.user._id && (
+                <>
+                  <IconButton
+                    type="button"
+                    onClick={() => {
+                      setSelectedComment(comment);
+                      handleOpen();
+                    }}
+                  >
+                    <EditIcon />
+                  </IconButton>
+
+                  <IconButton
+                    type="button"
+                    onClick={() => {
+                      deleteMutation.mutate(comment._id);
+                    }}
+                  >
+                    <DeleteIcon />
+                  </IconButton>
+                </>
+              )}
+            </div>
+
+            <Typography variant="body1">
+              <p dangerouslySetInnerHTML={{ __html: comment.comment }}></p>
+            </Typography>
+
+            <div
+              style={{
+                display: "flex",
+                alignItems: "center",
+              }}
+            >
+              <IconButton
+                onClick={() => {
+                  likeMutation.mutate(comment._id);
+                }}
+              >
+                {comment.upVote.userIds.find((userId) => {
+                  return userId.toString() === user.id;
+                }) ? (
+                  <ThumbUpAltIcon />
+                ) : (
+                  <ThumbUpOffAltIcon />
+                )}
+              </IconButton>
+              <p
+                style={{
+                  fontSize: "22px",
+                }}
+              >
+                {comment.upVote.count > 0 && comment.upVote.count}
+              </p>
+            </div>
           </div>
         );
       })}

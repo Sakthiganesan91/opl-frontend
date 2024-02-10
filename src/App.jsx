@@ -9,43 +9,47 @@ import Query from "./Pages/Home/Query";
 import ProfilePage from "./Pages/Profile/ProfilePage";
 import SavedPostPage from "./Pages/SavedPosts/SavedPostPage";
 import RoomSelectionPage from "./Pages/Authentication/RoomSelectionPage";
+import Navbar from "./Components/Navbar";
 function App() {
   const { user } = useContext(authContext);
   return (
-    <BrowserRouter>
-      <Routes>
-        <Route
-          path="/auth"
-          element={!user ? <AuthScreen /> : <Navigate to="/" />}
-        />
+    <>
+      <BrowserRouter>
+        <Navbar />
+        <Routes>
+          <Route
+            path="/auth"
+            element={!user ? <AuthScreen /> : <Navigate to="/" />}
+          />
 
-        <Route
-          path="/room-select"
-          element={!user ? <RoomSelectionPage /> : <Navigate to="/" />}
-        />
+          <Route
+            path="/room-select"
+            element={!user ? <RoomSelectionPage /> : <Navigate to="/" />}
+          />
 
-        <Route
-          path="/forgot-password"
-          element={!user ? <ForgotPassword /> : <Navigate to="/" />}
-        />
-        <Route
-          path="/change-password"
-          element={!user ? <ChangePassword /> : <Navigate to="/" />}
-        />
+          <Route
+            path="/forgot-password"
+            element={!user ? <ForgotPassword /> : <Navigate to="/" />}
+          />
+          <Route
+            path="/change-password"
+            element={!user ? <ChangePassword /> : <Navigate to="/" />}
+          />
 
-        <Route
-          path="/"
-          element={user ? <MainHome /> : <Navigate to="/auth" />}
-        />
-        <Route path="/profile" element={user && <ProfilePage />} />
-        <Route path="/saved-post" element={user && <SavedPostPage />} />
+          <Route
+            path="/"
+            element={user ? <MainHome /> : <Navigate to="/auth" />}
+          />
+          <Route path="/profile" element={user && <ProfilePage />} />
+          <Route path="/saved-post" element={user && <SavedPostPage />} />
 
-        <Route
-          path="/query/:room/:queryId"
-          element={user ? <Query /> : <Navigate to="/auth" />}
-        />
-      </Routes>
-    </BrowserRouter>
+          <Route
+            path="/query/:room/:queryId"
+            element={user ? <Query /> : <Navigate to="/auth" />}
+          />
+        </Routes>
+      </BrowserRouter>
+    </>
   );
 }
 

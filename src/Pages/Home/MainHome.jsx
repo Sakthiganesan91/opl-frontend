@@ -1,13 +1,12 @@
 import React from "react";
 import Navbar from "../../Components/Navbar";
-import AddRoom from "./AddRoom";
+import { RoomContextProvider } from "../../hooks/roomContext";
+
 import ChatSection from "./ChatSection";
 
 function MainHome() {
   return (
     <>
-      <Navbar />
-
       <ChatSection />
     </>
   );

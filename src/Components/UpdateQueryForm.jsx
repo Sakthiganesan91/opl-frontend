@@ -5,6 +5,7 @@ import { authContext } from "../hooks/authContext";
 
 import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
+import { Box, Button, TextField, Typography } from "@mui/material";
 
 function UpdateQueryForm({ query, handleClose }) {
   const queryClient = useQueryClient();
@@ -62,23 +63,51 @@ function UpdateQueryForm({ query, handleClose }) {
     setQueryDescription("");
   };
   return (
-    <div>
-      <div>{query.roomId}</div>
+    <Box
+      sx={{
+        margin: {
+          xs: "0 16px",
+        },
+      }}
+    >
+      <Typography
+        variant="h6"
+        sx={{
+          margin: "8px 0",
+        }}
+      >
+        Update Query
+      </Typography>
       <form onSubmit={submitHandler}>
         <div>
-          <label>Query Title</label>
-          <div>
-            <input
+          <div
+            style={{
+              margin: "16px 0",
+            }}
+          >
+            <TextField
+              label="Query Title"
+              variant="standard"
               type="text"
+              fullWidth
+              required
               value={queryTitle}
               onChange={queryTitleHandler}
             />
           </div>
         </div>
         <div>
-          <label>Query Description</label>
-          <div>
-            <input
+          <div
+            style={{
+              margin: "16px 0",
+            }}
+          >
+            <TextField
+              label="Query Description"
+              multiline
+              fullWidth
+              required
+              variant="standard"
               type="text"
               value={queryDescription}
               onChange={queryDescriptionHandler}
@@ -91,26 +120,24 @@ function UpdateQueryForm({ query, handleClose }) {
             theme="snow"
             value={queryDetails}
             onChange={setQueryDetails}
-            style={{
-              display: "flex",
-              flexDirection: "column",
-              overflowX: "clip",
-              overflowWrap: "break-word",
-              wordWrap: "break-word",
-              wordBreak: "break-word",
-            }}
           />
         </div>
 
-        <div>
-          <button type="submit">Update Query</button>
-          <button type="button" onClick={() => handleClose()}>
+        <div
+          style={{
+            margin: "4px 0",
+          }}
+        >
+          <Button type="submit" variant="contained">
+            Update Query
+          </Button>
+          <Button type="button" onClick={() => handleClose()} variant="text">
             Cancel
-          </button>
+          </Button>
           {error && <h5>{error}</h5>}
         </div>
       </form>
-    </div>
+    </Box>
   );
 }
 

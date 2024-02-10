@@ -6,6 +6,7 @@ import { BrowserRouter } from "react-router-dom";
 import { createTheme, ThemeProvider } from "@mui/material";
 import { AuthContextProvider } from "./hooks/authContext.jsx";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { RoomContextProvider } from "./hooks/roomContext.jsx";
 
 const queryClient = new QueryClient();
 
@@ -31,7 +32,9 @@ ReactDOM.createRoot(document.getElementById("root")).render(
     <QueryClientProvider client={queryClient}>
       <AuthContextProvider>
         <ThemeProvider theme={theme}>
-          <App />
+          <RoomContextProvider>
+            <App />
+          </RoomContextProvider>
         </ThemeProvider>
       </AuthContextProvider>
     </QueryClientProvider>
