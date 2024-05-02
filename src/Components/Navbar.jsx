@@ -76,19 +76,22 @@ function Navbar(props) {
             Hey Community !!
           </Typography>
           <Box sx={{ display: { xs: "none", sm: "block" } }}>
-            {navItems.map((item) => (
-              <Button
-                key={item}
-                sx={{ color: "#fff" }}
-                onClick={() => {
-                  navigate("/profile", {
-                    state: user.id,
-                  });
-                }}
-              >
-                {item}
-              </Button>
-            ))}
+            {navItems.map(
+              (item) =>
+                user && (
+                  <Button
+                    key={item}
+                    sx={{ color: "#fff" }}
+                    onClick={() => {
+                      navigate("/profile", {
+                        state: user.id,
+                      });
+                    }}
+                  >
+                    {item}
+                  </Button>
+                )
+            )}
           </Box>
         </Toolbar>
       </AppBar>
