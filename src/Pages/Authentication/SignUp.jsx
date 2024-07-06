@@ -10,37 +10,21 @@ function SignUp(props) {
   const navigate = useNavigate();
   const [showPassword, setShowPassword] = useState(false);
 
-  //error and error message handling
   const [emailError, setEmailError] = useState("");
   const [passwordError, setPasswordError] = useState("");
 
   const [isEmailError, setIsEmailError] = useState(false);
   const [isPasswordError, setIsPasswordError] = useState(false);
 
-  const [linkedinError, setLinkedinError] = useState(false);
-  const [linkedinErrorMessage, setLinkedinErrorMessage] = useState("");
-
-  const [githubError, setGithubError] = useState(false);
-  const [githubErrorMessage, setGithubErrorMessage] = useState("");
-
   const [user, setUser] = useState({
     email: "",
-    username: "",
+
     firstName: "",
     lastName: "",
     phoneNumber: "",
     password: "",
-    bio: "",
-    github: "",
-    linkedin: "",
+    userType: "",
   });
-
-  const usernameHandler = (e) => {
-    setUser({
-      ...user,
-      username: e.target.value,
-    });
-  };
 
   const emailHandler = (e) => {
     setUser({
@@ -67,24 +51,7 @@ function SignUp(props) {
       lastName: e.target.value,
     });
   };
-  const bioHandler = (e) => {
-    setUser({
-      ...user,
-      bio: e.target.value,
-    });
-  };
-  const githubHandler = (e) => {
-    setUser({
-      ...user,
-      github: e.target.value,
-    });
-  };
-  const linkedinHandler = (e) => {
-    setUser({
-      ...user,
-      linkedin: e.target.value,
-    });
-  };
+
   const phoneNumberHandler = (e) => {
     setUser({
       ...user,
@@ -96,31 +63,10 @@ function SignUp(props) {
     setShowPassword(!showPassword);
   };
 
-  const mutation = useMutation({
-    mutationFn: (email) => {
-      return request.post("/find-existing-user", {
-        email,
-      });
-    },
-    onError: (error) => {
-      console.log(error);
-      setEmailError(error.response.data.error);
-      setIsEmailError(true);
-      return;
-    },
-    onSuccess: (data) => {
-      console.log(data.data);
-      navigate("/room-select", {
-        state: { user },
-      });
-    },
-  });
-
   const submitHandler = async (e) => {
     e.preventDefault();
 
     const regex =
-      // eslint-disable-next-line no-useless-escape
       /^(([^<>()[\]\.,;:\s@\"]+(\.[^<>()[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i;
 
     if (regex.test(user.email) === false) {
@@ -134,33 +80,10 @@ function SignUp(props) {
       return;
     }
 
-    const linkedinRegex =
-      // eslint-disable-next-line no-useless-escape
-      /^(http(s)?:\/\/)?([\w]+\.)?linkedin\.com\/(pub|in|profile)\/([-a-zA-Z0-9]+)\/*/gm;
-
-    if (user.linkedin && !linkedinRegex.test(user.linkedin)) {
-      setLinkedinError(true);
-      setLinkedinErrorMessage("Invalid Url");
-      return;
-    }
-
-    const githubRegex =
-      // eslint-disable-next-line no-useless-escape
-      /^(http(s?):\/\/)?(www\.)?github\.([a-z])+\/([A-Za-z0-9]{1,})+\/?$/i;
-
-    if (user.github && !githubRegex.test(user.github)) {
-      setGithubError(true);
-      setGithubErrorMessage("Invalid Url");
-      return;
-    }
-
     setIsPasswordError(false);
-    setLinkedinError(false);
-    setGithubError(false);
+
     setIsEmailError(false);
     console.log(user);
-
-    mutation.mutate(user.email);
   };
 
   return (
